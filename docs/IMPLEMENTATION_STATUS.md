@@ -84,18 +84,15 @@
 ## Phase 3: The Seven Games (Section 4)
 
 **Order per GAME-FR-002:**
-1. ☐ **GAME-01**: Letter Rain — Sustained attention & short-term memory
-2. ☐ **GAME-02**: Pattern Mirror — Visual-spatial working memory
-3. ☐ **GAME-03**: Story Rhythm — Temporal auditory processing
-4. ☐ **GAME-04**: Number Jumper — Numerical cognition & counting
-5. ☐ **GAME-05**: Color Sequence — Executive function & inhibitory control
-6. ☐ **GAME-06**: Target Chase — Sustained visual attention & impulse control
-7. ☐ **GAME-07**: Word Echo — Phonological loop & verbal working memory
+1. ☑ **GAME-01**: Letter Rain — Phonological awareness / Dyslexia, Processing Speed Deficit
+2. ☑ **GAME-02**: Pattern Mirror — Visual working memory / Working Memory Deficit, Dyscalculia
+3. ☑ **GAME-03**: Story Rhythm — Auditory processing / Dyslexia, ADHD-Inattentive
+4. ☑ **GAME-04**: Number Jumper — Numerical cognition / Dyscalculia
+5. ☑ **GAME-05**: Color Sequence — Sustained attention / ADHD-Inattentive, Working Memory Deficit
+6. ☑ **GAME-06**: Target Chase — Impulse control / ADHD-Hyperactive/Impulsive (60 trials, 70/30)
+7. ☑ **GAME-07**: Word Echo — Phonological loop / Dyslexia, Working Memory Deficit (2–5 words)
 
-Each game includes:
-- ☐ Gameplay logic
-- ☐ Feature signal extraction
-- ☐ Acceptance criteria tests
+Each game includes: ☑ Gameplay logic ☑ Feature signal extraction ☑ Acceptance criteria tests
 
 ---
 
@@ -231,8 +228,8 @@ Each game includes:
 
 **Progress Summary:**
 - **Total requirements:** ~150+
-- **Completed:** ~20 (Phase 0 + Phase 1 + Phase 2 core)
-- **In progress:** ~8 (GAME-FR-005/008/013/014/015, GAME-NFR-001, AUTH-NFR-002/003)
-- **Not started:** ~120+
+- **Completed:** ~40 (Phase 0 + Phase 1 + Phase 2 + Phase 3 all 7 games)
+- **In progress:** ~8 (GAME-FR-005 audio, GAME-FR-013/014/015 full audit, AUTH-NFR-002/003)
+- **Not started:** ~100+ (Phase 4 ML, Phase 5 Reports/Dashboards/FL, Phase 6 Hardening)
 
 _This file is kept under version control and updated with every requirement-related commit._
