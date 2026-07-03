@@ -1,3 +1,189 @@
-﻿name: CI
-on: [push, pull_request]
-jobs: {}
+﻿###############################################################################
+# EarlyMind CI Pipeline
+# Traceability: Phase 0 — CI-001, SEC-NFR-005 (dependency scanning)
+# Runs on every push and pull request.
+# Order: lint → typecheck → test → build
+###############################################################################
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+env:
+  NODE_VERSION: "18.x"
+  PYTHON_VERSION: "3.10"
+
+jobs:
+  # ─── Lint ─────────────────────────────────────────────────────────────────
+  lint:
+    name: Lint
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check Prettier formatting
+        run: npm run format:check
+
+  # ─── TypeCheck ────────────────────────────────────────────────────────────
+  typecheck:
+    name: TypeCheck
+    runs-on: ubuntu-22.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript typecheck
+        run: npm run typecheck
+
+  # ─── Test (Node/TypeScript) ───────────────────────────────────────────────
+  test-node:
+    name: Test (Node/TS)
+    runs-on: ubuntu-22.04
+    needs: typecheck
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: earlymind
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: earlymind_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL_TEST: postgresql://earlymind:testpassword@localhost:5432/earlymind_test
+      SESSION_SECRET: test-secret-32-chars-minimum-xxxx
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          flags: node
+
+  # ─── Test (Python/ML service) ─────────────────────────────────────────────
+  test-python:
+    name: Test (Python/ML)
+    runs-on: ubuntu-22.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install Python dependencies
+        working-directory: services/ml-service
+        run: pip install -r requirements.txt
+
+      - name: Run ML service tests
+        working-directory: services/ml-service
+        run: python -m pytest tests/ -v --cov=app --cov-report=xml
+        env:
+          PYTHONPATH: .
+
+  # ─── Build ────────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    needs: [test-node, test-python]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Upload web build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: apps/web/dist/
+          retention-days: 7
+
+  # ─── Dependency vulnerability scan (SEC-NFR-005) ──────────────────────────
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-22.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit (Node dependencies)
+        run: npm audit --audit-level=high
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Run pip-audit (Python dependencies)
+        working-directory: services/ml-service
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt --severity high

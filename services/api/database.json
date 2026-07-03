@@ -1,0 +1,21 @@
+{
+    "dev": {
+        "driver": "pg",
+        "url": {
+            "ENV": "DATABASE_URL"
+        }
+    },
+    "test": {
+        "driver": "pg",
+        "url": {
+            "ENV": "DATABASE_URL_TEST"
+        }
+    },
+    "production": {
+        "driver": "pg",
+        "url": {
+            "ENV": "DATABASE_URL"
+        },
+        "ssl": true
+    }
+}

@@ -1,5 +1,49 @@
 ﻿{
   "name": "@earlymind/api",
+  "version": "0.0.0",
   "private": true,
-  "version": "0.0.0"
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "db:migrate": "node -r tsx/cjs src/db/migrate.ts",
+    "db:seed": "node -r tsx/cjs src/db/seeds/seed.ts",
+    "clean": "rimraf dist coverage"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "3.696.0",
+    "@aws-sdk/s3-request-presigner": "3.696.0",
+    "@earlymind/shared-types": "*",
+    "@google/generative-ai": "0.21.0",
+    "bcrypt": "5.1.1",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "express-rate-limit": "7.5.0",
+    "helmet": "8.0.0",
+    "pg": "8.13.3",
+    "uuid": "11.1.1",
+    "winston": "3.17.0",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "5.0.2",
+    "@types/cookie-parser": "1.4.8",
+    "@types/cors": "2.8.17",
+    "@types/express": "5.0.0",
+    "@types/node": "22.10.10",
+    "@types/pg": "8.11.10",
+    "@types/uuid": "10.0.0",
+    "@vitest/coverage-v8": "2.1.8",
+    "rimraf": "6.0.1",
+    "tsx": "4.19.2",
+    "typescript": "*",
+    "vitest": "2.1.8"
+  }
 }

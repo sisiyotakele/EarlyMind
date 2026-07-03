@@ -8,3 +8,34 @@ coverage/
 __pycache__/
 *.pyc
 .DS_Store
+*.pyo
+.venv/
+venv/
+
+# Turbo cache
+.turbo/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Prisma generated client
+packages/shared-types/node_modules/
+services/api/node_modules/
+apps/web/node_modules/
+
+# Test artifacts
+junit.xml
+test-results/
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+Thumbs.db

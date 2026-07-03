@@ -1,2 +1,30 @@
 ﻿version: "3.9"
-services: {}
+
+# Local development services
+# Usage: docker-compose -f infra/docker/docker-compose.dev.yml up -d
+#
+# Provides: PostgreSQL on localhost:5432
+# Matches the production Aurora PostgreSQL 14.x setup (SRS §2.4.3)
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: earlymind-postgres-dev
+    environment:
+      POSTGRES_USER: earlymind
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: earlymind_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - earlymind_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U earlymind -d earlymind_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  earlymind_postgres_data:
+    driver: local

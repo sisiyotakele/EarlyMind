@@ -1,1 +1,28 @@
-﻿
+﻿# SRS Section 8: ML Model Specifications
+# Python 3.10+
+
+# Web framework
+fastapi==0.115.7
+uvicorn[standard]==0.34.3
+pydantic==2.10.5
+
+# ML & Deep Learning
+tensorflow==2.18.0
+torch==2.6.0
+transformers==4.48.2
+scikit-learn==1.6.1
+numpy==2.2.2
+pandas==2.2.3
+
+# Explainability (Section 8.5)
+shap==0.48.1
+
+# Federated learning (Section 9.4)
+flwr==1.14.2
+
+# Cloud & storage
+boto3==1.36.14
+
+# Utilities
+python-dotenv==1.0.2
+pyyaml==6.0.2
