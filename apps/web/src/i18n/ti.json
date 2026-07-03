@@ -1,0 +1,105 @@
+{
+    "common": {
+        "appName": "EarlyMind",
+        "loading": "ይጽናሕ ኣሎ...",
+        "error": "ጸገም ተፈጢሩ",
+        "retry": "ደጊምካ ፈትን",
+        "close": "ዕጸዎ",
+        "next": "ዝቕጽል",
+        "back": "ናብ ድሕሪት",
+        "start": "ጀምር",
+        "save": "ዓቅብ",
+        "cancel": "ሰርዝ",
+        "confirm": "ኣረጋግጽ",
+        "yes": "እወ",
+        "no": "ኣይፋልን"
+    },
+    "auth": {
+        "welcome": "እንቋዕ ብደሓን መጻእካ/ኪ",
+        "phoneLabel": "ቁጽሪ ስልኪ",
+        "phonePlaceholder": "+251XXXXXXXXX",
+        "roleLabel": "ሚና",
+        "roles": {
+            "parent": "ወለዲ",
+            "teacher": "መምህር",
+            "school_admin": "ኣካያዲ ቤት-ትምህርቲ"
+        },
+        "languageLabel": "ቋንቋ",
+        "nameLabel": "ስም",
+        "pinLabel": "PIN 4-ቁጽሪ",
+        "otpLabel": "ኮድ OTP",
+        "loginWithPin": "ብ PIN እቶ",
+        "requestOtp": "OTP ስደድ",
+        "register": "ምዝገባ",
+        "otpSent": "OTP ናብ ስልክካ/ኪ ተልኢኹ",
+        "otpExpiry": "OTP ን5 ደቓይቕ ጥራሕ ይሰርሕ",
+        "pinLockout": "ኣካውንት ን{{minutes}} ደቓይቕ ዓጺዩ",
+        "deleteAccount": "ኣካውንት ሰርዝ",
+        "deleteConfirmation": "እዚ ቀዋሚ ምዃኑ ተረዲኡኒ"
+    },
+    "session": {
+        "initializing": "መደብ ይጅምር ኣሎ...",
+        "progress": {
+            "label": "ጸወታ {{current}} ካብ {{total}}"
+        },
+        "pause": "ደው ኣብሎ",
+        "paused": {
+            "title": "ጸወታ ደው ኢሉ",
+            "pauseCount": "{{count}} ካብ {{max}} ግዜ ደው ኣቢልካ/ኪ",
+            "resume": "ቀጽሎ",
+            "exit": "ካብ ጸወታ ውጻእ"
+        },
+        "transition": {
+            "encouragement": "ጽቡቕ ኢኻ/ኺ! ዝቕጽል...",
+            "nextGame": "ጸወታ {{number}}: {{name}}"
+        },
+        "complete": {
+            "title": "ኩሉ ተወዲኡ! ጽቡቕ ስራሕ!",
+            "subtitle": "ሪፖርትካ/ኪ ይዳሎ ኣሎ",
+            "processing": "ውጽኢትካ/ኪ ይዳሎ ኣሎ..."
+        },
+        "feedback": {
+            "encouragement": "ጽቡቕ ስራሕ!"
+        },
+        "loadingGame": "ጸወታ ይጸዓን ኣሎ..."
+    },
+    "games": {
+        "letter-rain": {
+            "name": "ናህሪ ፊደላት"
+        },
+        "pattern-mirror": {
+            "name": "ምስሊ ቅርጺ"
+        },
+        "story-rhythm": {
+            "name": "ሪትም ታሪኽ"
+        },
+        "number-jumper": {
+            "name": "ምፍናው ቁጽሪ"
+        },
+        "color-sequence": {
+            "name": "ተርታ ሕብሪ"
+        },
+        "target-chase": {
+            "name": "ምስዓብ ዕላማ"
+        },
+        "word-echo": {
+            "name": "ምብካይ ቃላት"
+        }
+    },
+    "preAssessment": {
+        "title": "ምርመራ ጀምር",
+        "childName": "ስም ቆልዓ: {{name}}",
+        "estimatedTime": "ዝተቐመጠ ግዜ: 15-20 ደቓይቕ",
+        "instructions": "ቆልዓካ/ኪ 7 ምዕሩጋት ጸወታታት ይጻወት። ነፍሲ ወከፍ ጸወታ 2-3 ደቓይቕ ይወስድ።",
+        "consentTitle": "ፍቓድ",
+        "consentText": "ምርመራ ንቆልዓካ/ኪ ዝምልከት ናይ ጸወታ ሓበሬታ ይእክብ።",
+        "consentConfirm": "ይሰማምዓሉ",
+        "begin": "ምርመራ ጀምር",
+        "disclaimer": "እዚ ምርመራ እዩ፣ ናይ ሕክምና መርመራ ኣይኮነን።"
+    },
+    "report": {
+        "disclaimer": "እዚ ምርመራ እዩ፣ ናይ ሕክምና መርመራ ኣይኮነን።",
+        "referral": "ናብ ናይ ፍሉይ ትምህርቲ ማእከል ምልኣኽ ኣድላዪ ክኸውን ይኽእል",
+        "notAvailable": "ሪፖርት ይዳሎ ኣሎ። ኣብ ውሽጢ 1-2 ደቓይቕ ይቐርብ።"
+    }
+}

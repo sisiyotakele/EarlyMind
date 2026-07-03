@@ -1,0 +1,105 @@
+{
+    "common": {
+        "appName": "EarlyMind",
+        "loading": "Fe'amaa jira...",
+        "error": "Dogoggorri uumame",
+        "retry": "Irra deebi'i yaali",
+        "close": "Cufi",
+        "next": "Itti aanaa",
+        "back": "Duubatti",
+        "start": "Jalqabi",
+        "save": "Kuusi",
+        "cancel": "Haquu",
+        "confirm": "Mirkaneessi",
+        "yes": "Eeyyee",
+        "no": "Lakki"
+    },
+    "auth": {
+        "welcome": "Baga nagaan dhuftan",
+        "phoneLabel": "Lakkoofsa bilbilaa",
+        "phonePlaceholder": "+251XXXXXXXXX",
+        "roleLabel": "Gahee",
+        "roles": {
+            "parent": "Maatii",
+            "teacher": "Barsiisaa",
+            "school_admin": "Bulchaa mana barumsaa"
+        },
+        "languageLabel": "Afaan",
+        "nameLabel": "Maqaa",
+        "pinLabel": "PIN lakkoofsota 4",
+        "otpLabel": "Koodii OTP",
+        "loginWithPin": "PIN waliin seeni",
+        "requestOtp": "OTP ergaa",
+        "register": "Galmeessi",
+        "otpSent": "OTP bilbila keessan irratti ergame",
+        "otpExpiry": "OTP daqiiqaa 5 qofa hojjata",
+        "pinLockout": "Herreegichi daqiiqaa {{minutes}} cufameera",
+        "deleteAccount": "Herreega haqi",
+        "deleteConfirmation": "Kuni dhumera ta'uun isaa naaf gala"
+    },
+    "session": {
+        "initializing": "Turtii jalqabaa jira...",
+        "progress": {
+            "label": "Tapaa {{current}} / {{total}}"
+        },
+        "pause": "Dhaabi",
+        "paused": {
+            "title": "Tapaan dhaabame",
+            "pauseCount": "{{count}} irra {{max}} dhaabde",
+            "resume": "Itti fufi",
+            "exit": "Turtii keessaa bahi"
+        },
+        "transition": {
+            "encouragement": "Hojii gaarii! Itti aanaa...",
+            "nextGame": "Tapaa {{number}}: {{name}}"
+        },
+        "complete": {
+            "title": "Hunduu xumurame! Hojii gaarii!",
+            "subtitle": "Gabaasni kee/keetii qophaa'aa jira",
+            "processing": "Bu'aaleen kee/keetii qophaa'aa jiru..."
+        },
+        "feedback": {
+            "encouragement": "Hojii gaarii!"
+        },
+        "loadingGame": "Tapaa fe'aa jira..."
+    },
+    "games": {
+        "letter-rain": {
+            "name": "Rooba Qubee"
+        },
+        "pattern-mirror": {
+            "name": "Agarsiisa Suraa"
+        },
+        "story-rhythm": {
+            "name": "Sagalee Seenaa"
+        },
+        "number-jumper": {
+            "name": "Lakkoofsota Utaalaa"
+        },
+        "color-sequence": {
+            "name": "Tartiiba Halluu"
+        },
+        "target-chase": {
+            "name": "Kaayyoo Hordofuu"
+        },
+        "word-echo": {
+            "name": "Deebi'ina Jecha"
+        }
+    },
+    "preAssessment": {
+        "title": "Madaallii Jalqabi",
+        "childName": "Maqaa daa'imaa: {{name}}",
+        "estimatedTime": "Yeroo tilmaamame: daqiiqaa 15-20",
+        "instructions": "Daa'imni kee/keetii tapaalee 7 taphaata. Tapaa tokko tokko daqiiqaa 2-3 fudhata.",
+        "consentTitle": "Hayyama",
+        "consentText": "Madaalliin odeeffannoo taphaan walqabatee daa'ima keef/keetif qorata.",
+        "consentConfirm": "Nan fudhadha",
+        "begin": "Madaallii Jalqabi",
+        "disclaimer": "Kun madaallii malee dhukkuba mirkaneessuu miti."
+    },
+    "report": {
+        "disclaimer": "Kun madaallii malee dhukkuba mirkaneessuu miti.",
+        "referral": "Gara Waldaa Barnootaa Addaa erguu barbaachisuu danda'a",
+        "notAvailable": "Gabaasni qophaa'aa jira. Daqiiqaa 1-2 keessatti ni dhufa."
+    }
+}

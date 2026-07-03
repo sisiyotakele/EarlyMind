@@ -1,0 +1,105 @@
+{
+    "common": {
+        "appName": "EarlyMind",
+        "loading": "በመጫን ላይ...",
+        "error": "ስህተት ተፈጠረ",
+        "retry": "እንደገና ሞክር",
+        "close": "ዝጋ",
+        "next": "ቀጣይ",
+        "back": "ተመለስ",
+        "start": "ጀምር",
+        "save": "አስቀምጥ",
+        "cancel": "ሰርዝ",
+        "confirm": "አረጋግጥ",
+        "yes": "አዎ",
+        "no": "አይ"
+    },
+    "auth": {
+        "welcome": "እንኳን ደህና መጣህ/ሽ",
+        "phoneLabel": "ስልክ ቁጥር",
+        "phonePlaceholder": "+251XXXXXXXXX",
+        "roleLabel": "ሚና",
+        "roles": {
+            "parent": "ወላጅ",
+            "teacher": "መምህር",
+            "school_admin": "የትምህርት ቤት አስተዳዳሪ"
+        },
+        "languageLabel": "ቋንቋ",
+        "nameLabel": "ስም",
+        "pinLabel": "4-አሃዝ PIN",
+        "otpLabel": "OTP ኮድ",
+        "loginWithPin": "ከ PIN ጋር ግባ",
+        "requestOtp": "OTP ላክ",
+        "register": "ምዝገባ",
+        "otpSent": "OTP ወደ ስልክዎ ተልኳል",
+        "otpExpiry": "OTP ለ5 ደቂቃ ብቻ ይሰራል",
+        "pinLockout": "መለያ ለ{{minutes}} ደቂቃ ተቆልፏል",
+        "deleteAccount": "መለያ ሰርዝ",
+        "deleteConfirmation": "ይህ ቋሚ ነው ብዬ ተረዳሁ"
+    },
+    "session": {
+        "initializing": "ክፍለ ጊዜ እየጀመርን ነው...",
+        "progress": {
+            "label": "ጨዋታ {{current}} ከ {{total}}"
+        },
+        "pause": "አቁም",
+        "paused": {
+            "title": "ጨዋታ ቆሟል",
+            "pauseCount": "{{count}} ከ {{max}} ጊዜ አቁመዋል",
+            "resume": "ቀጥል",
+            "exit": "ጨዋታ ውጣ"
+        },
+        "transition": {
+            "encouragement": "አሁን ደህና ነህ/ሽ! ቀጥሎ...",
+            "nextGame": "ጨዋታ {{number}}: {{name}}"
+        },
+        "complete": {
+            "title": "ሁሉም ተጠናቀቀ! ጥሩ ሥራ!",
+            "subtitle": "አሁን ሪፖርትህ/ሽ እየተዘጋጀ ነው",
+            "processing": "ውጤቶችዎ እየተዘጋጁ ናቸው..."
+        },
+        "feedback": {
+            "encouragement": "ጥሩ ሥራ!"
+        },
+        "loadingGame": "ጨዋታ እየጫኑ ነው..."
+    },
+    "games": {
+        "letter-rain": {
+            "name": "ፊደላት ዝናብ"
+        },
+        "pattern-mirror": {
+            "name": "ቅርጽ መስታወት"
+        },
+        "story-rhythm": {
+            "name": "የታሪክ ምት"
+        },
+        "number-jumper": {
+            "name": "ቁጥር ዝላይ"
+        },
+        "color-sequence": {
+            "name": "የቀለም ቅደም ተከተል"
+        },
+        "target-chase": {
+            "name": "ዒላማ ማሳደድ"
+        },
+        "word-echo": {
+            "name": "የቃል ድምጽ መልስ"
+        }
+    },
+    "preAssessment": {
+        "title": "ምርመራ ጀምር",
+        "childName": "የልጁ ስም: {{name}}",
+        "estimatedTime": "የሚጠበቅ ጊዜ: ከ15 እስከ 20 ደቂቃ",
+        "instructions": "ልጅዎ 7 አስደሳች ጨዋታዎችን ይጫወታል። እያንዳንዱ ጨዋታ ከ2 እስከ 3 ደቂቃ ይወስዳል።",
+        "consentTitle": "ፈቃድ",
+        "consentText": "ምርመራ ለልጅዎ ከጨዋታ ጋር ተያያዥ የሆኑ ውሂቦችን ይሰበስባል።",
+        "consentConfirm": "ተስማምቻለሁ",
+        "begin": "ምርመራ ጀምር",
+        "disclaimer": "ይህ ምርመራ ነው፣ ምርመራ ሳይሆን።"
+    },
+    "report": {
+        "disclaimer": "ይህ ምርመራ ነው፣ ምርመራ ሳይሆን።",
+        "referral": "ወደ ልዩ ትምህርት ማዕከል ማስተላለፍ ሊያስፈልግ ይችላል",
+        "notAvailable": "ሪፖርቱ እየተዘጋጀ ነው። ከ1-2 ደቂቃ ውስጥ ተዘጋጅቶ ይቀርባል።"
+    }
+}
