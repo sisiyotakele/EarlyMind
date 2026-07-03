@@ -1,89 +1,43 @@
 /**
- * Auth Controller — handles HTTP layer for auth endpoints.
- *
- * Delegates business logic to auth.service.ts.
- * Sets httpOnly session cookie per AUTH-FR-002 Business Rule.
- *
- * Traceability: AUTH-FR-001–005, SRS §9.1
+ * Auth Controller — HTTP handlers for auth endpoints
+ * Traceability: AUTH-FR-001/002/003/004/005
  */
-import { Request, Response, NextFunction } from 'express';
-import { z } from 'zod';
-import * as authService from './auth.service';
-import * as otpService from './otp.service';
+
+import type { NextFunction, Request, Response } from 'express';
+
 import { env } from '../../config/env';
-import type { Language, UserRole } from '@earlymind/shared-types';
+import {
+    completeRegistration,
+    deleteAccount,
+    getProfile,
+    initiateRegistration,
+    loginWithOtp,
+    loginWithPin,
+    logout,
+    requestLoginOtp,
+    updateProfile,
+} from './auth.service';
 
-// ─── Zod validators ───────────────────────────────────────────────────────────
-
-const registerSchema = z.object({
-    phone_number: z.string().regex(/^\+251[0-9]{9}$/, 'Must be +251XXXXXXXXX'),
-    role: z.enum(['parent', 'teacher', 'school_admin'] as const),
-    language: z.enum(['am', 'om', 'ti'] as const),
-    name: z.string().min(1).max(100),
-    pin: z.string().regex(/^\d{4}$/, 'PIN must be 4 digits'),
-    school_id: z.string().uuid().optional(),
-    otp: z.string().length(6),
-});
-
-const otpRequestSchema = z.object({
-    phone_number: z.string().regex(/^\+251[0-9]{9}$/, 'Must be +251XXXXXXXXX'),
-});
-
-const loginPinSchema = z.object({
-    phone_number: z.string().regex(/^\+251[0-9]{9}$/),
-    pin: z.string().regex(/^\d{4}$/),
-});
-
-const loginOtpSchema = z.object({
-    phone_number: z.string().regex(/^\+251[0-9]{9}$/),
-    otp: z.string().length(6),
-});
-
-const updateProfileSchema = z.object({
-    name: z.string().min(1).max(100).optional(),
-    language: z.enum(['am', 'om', 'ti'] as const).optional(),
-    current_pin: z.string().regex(/^\d{4}$/).optional(),
-    new_pin: z.string().regex(/^\d{4}$/).optional(),
-});
-
-const deleteAccountSchema = z.object({
-    confirmation_pin: z.string().regex(/^\d{4}$/),
-    acknowledge_permanent: z.literal(true),
-});
-
-// ─── Cookie helper ────────────────────────────────────────────────────────────
-
-function setSessionCookie(res: Response, token: string): void {
-    res.cookie('session_token', token, {
-        httpOnly: true,             // AUTH-NFR-001: httpOnly
-        secure: env.NODE_ENV === 'production', // AUTH-NFR-001: secure in prod
-        sameSite: 'strict',         // AUTH-NFR-001: SameSite
+/** Shared cookie options — AUTH-NFR-001: httpOnly, Secure, SameSite */
+function sessionCookieOptions() {
+    return {
+        httpOnly: true,
+        secure: env.NODE_ENV === 'production', // HTTPS only in prod (CON-PRIV-003)
+        sameSite: 'strict' as const,
         maxAge: env.SESSION_EXPIRY_DAYS * 24 * 60 * 60 * 1000,
-    });
+        path: '/',
+    };
 }
 
-// ─── Handlers ─────────────────────────────────────────────────────────────────
-
-/** POST /api/auth/otp/request — AUTH-FR-001 */
-export async function requestOtp(req: Request, res: Response, next: NextFunction): Promise<void> {
+// POST /api/auth/register — AUTH-FR-001
+export async function handleRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const { phone_number } = otpRequestSchema.parse(req.body);
-        const result = await otpService.requestOtp(phone_number);
-
-        // In production, send via SMS gateway (wired in smsGateway.ts).
-        // In development, log to console (never in production logs).
-        if (env.NODE_ENV === 'development') {
-            console.warn(`[DEV ONLY] OTP for ${phone_number}: ${result.code}`);
-        } else {
-            // TODO: wire SMS gateway integration
-            // await smsGateway.send(phone_number, `Your EarlyMind code: ${result.code}`);
-        }
-
-        res.json({
+        await initiateRegistration(req.body as Record<string, unknown>);
+        res.status(200).json({
             success: true,
             data: {
-                expires_in_seconds: env.OTP_EXPIRY_SECONDS,
-                resends_remaining: result.resendsRemaining,
+                message: 'OTP sent to your phone number. Enter the code to complete registration.',
+                phone_number: (req.body as Record<string, unknown>)['phone_number'],
             },
         });
     } catch (err) {
@@ -91,82 +45,125 @@ export async function requestOtp(req: Request, res: Response, next: NextFunction
     }
 }
 
-/** POST /api/auth/register — AUTH-FR-001 */
-export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
+// POST /api/auth/register/verify — AUTH-FR-001
+export async function handleVerifyRegistration(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const body = registerSchema.parse(req.body);
-        const result = await authService.registerUser({
-            ...body,
-            role: body.role as UserRole,
-            language: body.language as Language,
+        const body = req.body as { phone_number?: string; otp?: string; pin?: string };
+        const authData = await completeRegistration(
+            body.phone_number ?? '',
+            body.otp ?? '',
+            body.pin ?? '',
+            req.ip,
+            req.headers['user-agent'],
+        );
+
+        res.cookie('session_token', authData.token.session_token, sessionCookieOptions());
+        res.status(201).json({ success: true, data: { user: authData.user } });
+    } catch (err) {
+        next(err);
+    }
+}
+
+// POST /api/auth/login/pin — AUTH-FR-002
+export async function handleLoginPin(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const body = req.body as { phone_number?: string; pin?: string };
+        const authData = await loginWithPin(
+            body.phone_number ?? '',
+            body.pin ?? '',
+            req.ip,
+            req.headers['user-agent'],
+        );
+
+        res.cookie('session_token', authData.token.session_token, sessionCookieOptions());
+        // AUTH-FR-002: "successful login redirects to the role-appropriate dashboard"
+        res.status(200).json({ success: true, data: { user: authData.user } });
+    } catch (err) {
+        next(err);
+    }
+}
+
+// POST /api/auth/login/otp/request — AUTH-FR-002
+export async function handleRequestLoginOtp(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const body = req.body as { phone_number?: string };
+        await requestLoginOtp(body.phone_number ?? '');
+        // Generic response to prevent phone enumeration
+        res.status(200).json({
+            success: true,
+            data: { message: 'If this phone number is registered, an OTP has been sent.' },
         });
-        setSessionCookie(res, result.session_token);
-        res.status(201).json({ success: true, data: result });
     } catch (err) {
         next(err);
     }
 }
 
-/** POST /api/auth/login/pin — AUTH-FR-002 */
-export async function loginPin(req: Request, res: Response, next: NextFunction): Promise<void> {
+// POST /api/auth/login/otp/verify — AUTH-FR-002
+export async function handleLoginOtp(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const body = loginPinSchema.parse(req.body);
-        const result = await authService.loginWithPin(body);
-        setSessionCookie(res, result.session_token);
-        res.json({ success: true, data: result });
+        const body = req.body as { phone_number?: string; otp?: string };
+        const authData = await loginWithOtp(
+            body.phone_number ?? '',
+            body.otp ?? '',
+            req.ip,
+            req.headers['user-agent'],
+        );
+
+        res.cookie('session_token', authData.token.session_token, sessionCookieOptions());
+        res.status(200).json({ success: true, data: { user: authData.user } });
     } catch (err) {
         next(err);
     }
 }
 
-/** POST /api/auth/login/otp — AUTH-FR-002 */
-export async function loginOtp(req: Request, res: Response, next: NextFunction): Promise<void> {
+// GET /api/users/me — AUTH-FR-003
+export async function handleGetProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const body = loginOtpSchema.parse(req.body);
-        const result = await authService.loginWithOtp(body);
-        setSessionCookie(res, result.session_token);
-        res.json({ success: true, data: result });
+        const user = await getProfile(req.user?.user_id ?? '');
+        res.status(200).json({ success: true, data: { user } });
     } catch (err) {
         next(err);
     }
 }
 
-/** GET /api/users/me — AUTH-FR-003 */
-export async function getProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+// PUT /api/users/me — AUTH-FR-003
+export async function handleUpdateProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const result = await authService.getProfile(req.user!.user_id);
-        res.json({ success: true, data: result });
+        const user = await updateProfile(req.user?.user_id ?? '', req.body as Record<string, string>);
+        res.status(200).json({ success: true, data: { user } });
     } catch (err) {
         next(err);
     }
 }
 
-/** PUT /api/users/me — AUTH-FR-003 */
-export async function updateProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+// POST /api/auth/logout
+export async function handleLogout(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const body = updateProfileSchema.parse(req.body);
-        const result = await authService.updateProfile(req.user!.user_id, body, req.user!.role);
-        res.json({ success: true, data: result });
+        const token = req.cookies?.['session_token'] as string | undefined;
+        if (token) {
+            await logout(token);
+        }
+        res.clearCookie('session_token', { path: '/' });
+        res.status(200).json({ success: true, data: { message: 'Logged out successfully.' } });
     } catch (err) {
         next(err);
     }
 }
 
-/** DELETE /api/users/me — AUTH-FR-005 (GDPR right to erasure) */
-export async function deleteAccount(req: Request, res: Response, next: NextFunction): Promise<void> {
+// DELETE /api/users/me — AUTH-FR-005
+export async function handleDeleteAccount(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const { confirmation_pin, acknowledge_permanent } = deleteAccountSchema.parse(req.body);
-        await authService.deleteAccount(req.user!.user_id, confirmation_pin, acknowledge_permanent);
-        // Clear the session cookie
-        res.clearCookie('session_token');
-        res.json({ success: true, data: { message: 'Account and all associated data deleted' } });
+        const body = req.body as { confirmation?: string; pin?: string; otp?: string };
+        await deleteAccount(
+            req.user?.user_id ?? '',
+            body.confirmation ?? '',
+            body.pin,
+            body.otp,
+        );
+
+        res.clearCookie('session_token', { path: '/' });
+        res.status(200).json({ success: true, data: { message: 'Account and all associated data permanently deleted.' } });
     } catch (err) {
         next(err);
     }
-}
-
-/** POST /api/auth/logout */
-export function logout(_req: Request, res: Response): void {
-    res.clearCookie('session_token');
-    res.json({ success: true, data: { message: 'Logged out' } });
 }

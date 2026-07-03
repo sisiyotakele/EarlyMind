@@ -16,7 +16,7 @@ import helmet from 'helmet';
 import { env } from './config/env';
 import { errorHandler } from './middleware/errorHandler.middleware';
 import { requestLogger } from './middleware/requestLogger.middleware';
-import { authRoutes } from './modules/auth/auth.routes';
+import { authRoutes, userRoutes } from './modules/auth/auth.routes';
 import { childrenRoutes } from './modules/children/children.routes';
 import { sessionRoutes } from './modules/sessions/sessions.routes';
 
@@ -75,6 +75,7 @@ export function createApp(): express.Express {
 
     // ─── API routes (SRS Section 9.1) ────────────────────────────────────────
     app.use('/api/auth', authRoutes);
+    app.use('/api/users', userRoutes);
     app.use('/api/children', childrenRoutes);
     app.use('/api/sessions', sessionRoutes);
 

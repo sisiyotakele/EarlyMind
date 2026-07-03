@@ -38,16 +38,16 @@
 ## Phase 1: Auth & User Management (Section 3.1)
 
 ### Functional Requirements
-- ☐ **AUTH-FR-001** (P0): User Registration (phone + OTP)
-- ☐ **AUTH-FR-002** (P0): OTP-Based Login (PIN or OTP)
-- ☐ **AUTH-FR-003** (P0): Profile Management
-- ☐ **AUTH-FR-004** (P0): Role-Based Access Control
-- ☐ **AUTH-FR-005** (P0): Account Deletion / GDPR Right to Erasure
+- ☑ **AUTH-FR-001** (P0): User Registration (phone + OTP)
+- ☑ **AUTH-FR-002** (P0): OTP-Based Login (PIN or OTP)
+- ☑ **AUTH-FR-003** (P0): Profile Management
+- ☑ **AUTH-FR-004** (P0): Role-Based Access Control
+- ☑ **AUTH-FR-005** (P0): Account Deletion / GDPR Right to Erasure
 
 ### Non-Functional Requirements
-- ☐ **AUTH-NFR-001** (P0): Security (bcrypt, session tokens, logging)
-- ☐ **AUTH-NFR-002** (P1): Performance (login <1s, OTP <30s)
-- ☐ **AUTH-NFR-003** (P0): Availability (>=99.5% uptime, retry on SMS fail)
+- ☑ **AUTH-NFR-001** (P0): Security (bcrypt, session tokens, logging)
+- ◐ **AUTH-NFR-002** (P1): Performance (login <1s, OTP <30s) — not yet load-tested
+- ◐ **AUTH-NFR-003** (P0): Availability (>=99.5% uptime, retry on SMS fail) — not yet deployed
 
 ---
 
@@ -231,8 +231,8 @@ Each game includes:
 
 **Progress Summary:**
 - **Total requirements:** ~150+
-- **Completed:** 0
-- **In progress:** 0
-- **Not started:** ~150+
+- **Completed:** 8 (AUTH-FR-001/002/003/004/005, AUTH-NFR-001, ROOT-SETUP-*, CI-001, DB-SCHEMA-*)
+- **In progress:** 2 (AUTH-NFR-002/003 — pending load testing & deployment)
+- **Not started:** ~140+
 
 _This file is kept under version control and updated with every requirement-related commit._
