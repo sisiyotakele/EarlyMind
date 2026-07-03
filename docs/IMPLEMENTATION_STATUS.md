@@ -54,30 +54,30 @@
 ## Phase 2: Assessment Engine Core (Section 3.2)
 
 ### Session Lifecycle
-- ☐ **GAME-FR-001** (P0): Assessment Session Initialization
-- ☐ **GAME-FR-002** (P0): Game Sequencing and Flow (fixed 7-game order)
-- ☐ **GAME-FR-003** (P0): Session Pause and Resume
-- ☐ **GAME-FR-004** (P0): Session Completion and Data Submission
+- ☑ **GAME-FR-001** (P0): Assessment Session Initialization
+- ☑ **GAME-FR-002** (P0): Game Sequencing and Flow (fixed 7-game order)
+- ☑ **GAME-FR-003** (P0): Session Pause and Resume
+- ☑ **GAME-FR-004** (P0): Session Completion and Data Submission
 
 ### Interaction & Feedback
-- ☐ **GAME-FR-005** (P0): Trilingual Audio Instructions
-- ☐ **GAME-FR-006** (P0): Touch and Click Input Handling
-- ☐ **GAME-FR-007** (P1): Adaptive Difficulty Adjustment
-- ☐ **GAME-FR-008** (P0): Visual and Auditory Feedback
+- ◐ **GAME-FR-005** (P0): Trilingual Audio Instructions — orchestrator hooks present, audio impl pending
+- ☑ **GAME-FR-006** (P0): Touch and Click Input Handling
+- ☑ **GAME-FR-007** (P1): Adaptive Difficulty Adjustment
+- ◐ **GAME-FR-008** (P0): Visual and Auditory Feedback — visual done, audio pending
 
 ### Data Capture
-- ☐ **GAME-FR-009** (P0): Event Logging (Millisecond Precision)
-- ☐ **GAME-FR-010** (P0): Feature Extraction (200+ dimensions)
-- ☐ **GAME-FR-011** (P0): Age-Based Normalization
+- ☑ **GAME-FR-009** (P0): Event Logging (Millisecond Precision)
+- ☑ **GAME-FR-010** (P0): Feature Extraction (200+ dimensions)
+- ☑ **GAME-FR-011** (P0): Age-Based Normalization
 
 ### Offline, Performance, Accessibility
-- ☐ **GAME-FR-012** (P0): Offline Game Caching / PWA
-- ☐ **GAME-FR-013** (P0): Performance on Low-End Devices
-- ☐ **GAME-FR-014** (P0): Visual Accessibility (WCAG 2.1 AA)
-- ☐ **GAME-FR-015** (P1): Auditory Accessibility (subtitles, vibration fallback)
+- ☑ **GAME-FR-012** (P0): Offline Game Caching / PWA (vite.config + IndexedDB + syncQueue)
+- ◐ **GAME-FR-013** (P0): Performance on Low-End Devices — implemented, not yet profiled
+- ◐ **GAME-FR-014** (P0): Visual Accessibility (WCAG 2.1 AA) — hooks in place, full audit pending
+- ◐ **GAME-FR-015** (P1): Auditory Accessibility — hooks in place, full impl pending
 
 ### Non-Functional
-- ☐ **GAME-NFR-001** (P0): Input latency <100ms, >=30 FPS on 2GB-RAM devices
+- ◐ **GAME-NFR-001** (P0): Input latency <100ms, >=30 FPS on 2GB-RAM devices — not yet profiled
 
 ---
 
@@ -231,8 +231,8 @@ Each game includes:
 
 **Progress Summary:**
 - **Total requirements:** ~150+
-- **Completed:** 8 (AUTH-FR-001/002/003/004/005, AUTH-NFR-001, ROOT-SETUP-*, CI-001, DB-SCHEMA-*)
-- **In progress:** 2 (AUTH-NFR-002/003 — pending load testing & deployment)
-- **Not started:** ~140+
+- **Completed:** ~20 (Phase 0 + Phase 1 + Phase 2 core)
+- **In progress:** ~8 (GAME-FR-005/008/013/014/015, GAME-NFR-001, AUTH-NFR-002/003)
+- **Not started:** ~120+
 
 _This file is kept under version control and updated with every requirement-related commit._
