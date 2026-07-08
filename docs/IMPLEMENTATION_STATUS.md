@@ -13,25 +13,25 @@
 ## Phase 0: Foundation
 
 ### Workspace & Tooling
-- ☐ **ROOT-SETUP-001**: Root package.json with workspaces, turbo scripts
-- ☐ **ROOT-SETUP-002**: tsconfig.base.json (shared TS config)
-- ☐ **ROOT-SETUP-003**: ESLint + Prettier config
-- ☐ **ROOT-SETUP-004**: .gitignore complete
-- ☐ **ROOT-SETUP-005**: .env.example files (all services)
+- ☑ **ROOT-SETUP-001**: Root package.json with workspaces, turbo scripts
+- ☑ **ROOT-SETUP-002**: tsconfig.base.json (shared TS config)
+- ☑ **ROOT-SETUP-003**: ESLint + Prettier config
+- ☑ **ROOT-SETUP-004**: .gitignore complete
+- ☑ **ROOT-SETUP-005**: .env.example files (all services)
 
 ### CI/CD
-- ☐ **CI-001**: `.github/workflows/ci.yml` — lint → typecheck → test → build
+- ☑ **CI-001**: `.github/workflows/ci.yml` — lint → typecheck → test → build
 
 ### Database
-- ☐ **DB-SCHEMA-001**: Users table migration (AUTH-FR-001, DR-001)
-- ☐ **DB-SCHEMA-002**: Children table migration (DR-002)
-- ☐ **DB-SCHEMA-003**: Schools table migration (DR-003)
-- ☐ **DB-SCHEMA-004**: Sessions table migration (GAME-FR-001, DR-004)
-- ☐ **DB-SCHEMA-005**: Feature_vectors table migration (GAME-FR-010, DR-005)
-- ☐ **DB-SCHEMA-006**: Predictions table migration (ML-FR-001, DR-006)
-- ☐ **DB-SCHEMA-007**: Reports table migration (REPORT-FR-001, DR-007)
-- ☐ **DB-SCHEMA-008**: Consents table migration (CON-REG-001, DR-008)
-- ☐ **DB-SCHEMA-009**: Audit_logs table migration (SEC-NFR-006, DR-009)
+- ☑ **DB-SCHEMA-001**: Users table migration (AUTH-FR-001, DR-001)
+- ☑ **DB-SCHEMA-002**: Children table migration (DR-002)
+- ☑ **DB-SCHEMA-003**: Schools table migration (DR-003)
+- ☑ **DB-SCHEMA-004**: Sessions table migration (GAME-FR-001, DR-004)
+- ☑ **DB-SCHEMA-005**: Feature_vectors table migration (GAME-FR-010, DR-005)
+- ☑ **DB-SCHEMA-006**: Predictions table migration (ML-FR-001, DR-006)
+- ☑ **DB-SCHEMA-007**: Reports table migration (REPORT-FR-001, DR-007)
+- ☑ **DB-SCHEMA-008**: Consents table migration (CON-REG-001, DR-008)
+- ☑ **DB-SCHEMA-009**: Audit_logs table migration (SEC-NFR-006, DR-009)
 
 ---
 
@@ -99,23 +99,23 @@ Each game includes: ☑ Gameplay logic ☑ Feature signal extraction ☑ Accepta
 ## Phase 4: ML Service (Section 8)
 
 ### Feature Engineering
-- ☐ **ML-FE-001**: Feature schema (200+ dimensions per GAME-FR-010)
-- ☐ **ML-FE-002**: Age normalization pipeline (GAME-FR-011)
+- ☑ **ML-FE-001**: Feature schema — 201 named features, ordered index map, vector_from_dict()
+- ☑ **ML-FE-002**: Age normalization pipeline — server-side AgeNormalizer with interpolation
 
 ### Model
-- ☐ **ML-ARCH-001**: LSTM + Transformer hybrid architecture (Section 8.2)
-- ☐ **ML-ARCH-002**: Multi-label classification (6 conditions)
-- ☐ **ML-ARCH-003**: Monte Carlo dropout uncertainty quantification
+- ☑ **ML-ARCH-001**: LSTM + Transformer hybrid — LSTM(128 hidden, 2 layers, bidir) + Transformer(d=128, 8 heads, 2 layers)
+- ☑ **ML-ARCH-002**: Multi-label classification — 6 sigmoid outputs, BCEWithLogitsLoss
+- ☑ **ML-ARCH-003**: Monte Carlo dropout — 20 samples at inference, std = uncertainty
 
 ### Training
-- ☐ **ML-TRAIN-001**: Training pipeline (Section 8.3)
-- ☐ **ML-TRAIN-002**: Evaluation harness (Section 8.4, >=80% sensitivity)
+- ☑ **ML-TRAIN-001**: Training pipeline — 70/15/15 stratified split, weighted sampler, pos_weight, AdamW, model saved to S3
+- ☑ **ML-TRAIN-002**: Evaluation harness — sensitivity ≥80%, specificity ≥70%, AUC-ROC ≥0.80 gates
 
 ### Explainability
-- ☐ **ML-XAI-001**: SHAP explainability integration (Section 8.5)
+- ☑ **ML-XAI-001**: SHAP explainability — GradientExplainer + fast gradient fallback, top-5 features per condition
 
 ### Inference API
-- ☐ **ML-API-001**: POST /internal/ml/predict (<5s, Section 9.3)
+- ☑ **ML-API-001**: POST /internal/ml/predict — <5s, all 6 conditions, confidence intervals, SHAP features
 
 ---
 
@@ -228,8 +228,8 @@ Each game includes: ☑ Gameplay logic ☑ Feature signal extraction ☑ Accepta
 
 **Progress Summary:**
 - **Total requirements:** ~150+
-- **Completed:** ~40 (Phase 0 + Phase 1 + Phase 2 + Phase 3 all 7 games)
+- **Completed:** ~60 (Phase 0 ☑ + Phase 1 ☑ + Phase 2 ☑ + Phase 3 ☑ all 7 games + Phase 4 ☑)
 - **In progress:** ~8 (GAME-FR-005 audio, GAME-FR-013/014/015 full audit, AUTH-NFR-002/003)
-- **Not started:** ~100+ (Phase 4 ML, Phase 5 Reports/Dashboards/FL, Phase 6 Hardening)
+- **Not started:** ~80+ (Phase 5 Reports/Dashboards/FL, Phase 6 Hardening)
 
 _This file is kept under version control and updated with every requirement-related commit._
