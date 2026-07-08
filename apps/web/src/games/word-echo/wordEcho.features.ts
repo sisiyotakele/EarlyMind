@@ -47,8 +47,10 @@ export function extractWordEchoFeatures(events: GameEvent[]): WordEchoFeatures {
         return Math.max(max, len);
     }, 0) || null;
 
-    const diffs = events.map((e) => e.difficulty_level).filter((d): d is number => d !== null && d !== undefined);
-    const maxDiff = diffs.length > 0 ? Math.max(...diffs) : null;
+    const difficulties = events
+        .map((e) => e.difficulty_level)
+        .filter((d): d is 1 | 2 | 3 | 4 | 5 => d != null);
+    const maxDiff = difficulties.length > 0 ? Math.max(...difficulties) : null;
 
     return {
         word_echo_max_span: maxSpan,

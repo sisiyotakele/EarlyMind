@@ -78,7 +78,7 @@ export class SessionController {
         if (!state) return null;
 
         // GAME-FR-003: paused sessions expire after 7 days
-        if (state.last_paused_at_ms !== null) {
+        if (state.last_paused_at_ms != null) {
             const elapsed = Date.now() - state.last_paused_at_ms;
             if (elapsed > PAUSED_SESSION_EXPIRY_MS) {
                 await clearSessionState(sessionId);

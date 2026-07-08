@@ -69,7 +69,7 @@ export function extractLetterRainFeatures(events: GameEvent[]): LetterRainFeatur
     // Max difficulty reached
     const difficulties = events
         .map((e) => e.difficulty_level)
-        .filter((d): d is number => d !== null && d !== undefined);
+        .filter((d): d is 1 | 2 | 3 | 4 | 5 => d != null);
     const maxDifficulty = difficulties.length > 0 ? Math.max(...difficulties) : null;
 
     // Per-difficulty accuracy

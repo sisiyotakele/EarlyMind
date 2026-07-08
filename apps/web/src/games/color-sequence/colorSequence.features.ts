@@ -30,8 +30,10 @@ export function extractColorSequenceFeatures(events: GameEvent[]): ColorSequence
     const rtVar = latencies.length > 1 ? Math.sqrt(latencies.map((v) => (v - mean) ** 2).reduce((s, v) => s + v, 0) / latencies.length) : null;
     const rtTrend = latencies.length >= 3 ? linearSlope(latencies) : null;
 
-    const diffs = events.map((e) => e.difficulty_level).filter((d): d is number => d !== null && d !== undefined);
-    const maxDiff = diffs.length > 0 ? Math.max(...diffs) : null;
+    const difficulties = events
+        .map((e) => e.difficulty_level)
+        .filter((d): d is 1 | 2 | 3 | 4 | 5 => d != null);
+    const maxDiff = difficulties.length > 0 ? Math.max(...difficulties) : null;
 
     const clusterCount = countOmissionClusters(omission);
 

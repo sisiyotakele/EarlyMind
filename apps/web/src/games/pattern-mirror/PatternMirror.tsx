@@ -122,7 +122,7 @@ export default function PatternMirror({ language, logger, onComplete }: GameProp
             duration_ms: endTime - startTimeRef.current,
             final_difficulty: 3,  // fixed curve, report mid-point
             events_count: allEvents.length,
-            summary: { ...stats, ...flattenFeatures(features) },
+            summary: { ...flattenFeatures(stats), ...flattenFeatures(features) },
         };
         logger.log('game_complete', { metadata: { game_id: 'pattern-mirror', ...stats } });
         await logger.stop();
@@ -191,6 +191,7 @@ export default function PatternMirror({ language, logger, onComplete }: GameProp
     );
 }
 
-function flattenFeatures(f: Record<string, number | null>): Record<string, number> {
-    return Object.fromEntries(Object.entries(f).filter(([, v]) => v !== null)) as Record<string, number>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function flattenFeatures(f: Record<string, any>): Record<string, number> {
+    return Object.fromEntries(Object.entries(f).filter(([, v]) => typeof v === 'number')) as Record<string, number>;
 }

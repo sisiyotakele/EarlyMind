@@ -272,10 +272,11 @@ export default function LetterRain({ sessionId, language, logger, onComplete }: 
     );
 }
 
-function flattenFeatures(features: Record<string, number | null>): Record<string, number> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function flattenFeatures(features: Record<string, any>): Record<string, number> {
     const flat: Record<string, number> = {};
     for (const [k, v] of Object.entries(features)) {
-        if (v !== null) flat[k] = v;
+        if (typeof v === 'number') flat[k] = v;
     }
     return flat;
 }

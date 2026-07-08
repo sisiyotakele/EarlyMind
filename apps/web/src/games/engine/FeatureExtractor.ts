@@ -512,7 +512,7 @@ export class FeatureExtractor {
     private getMaxDifficultyReached(): number | null {
         const difficulties = this.getAllEvents()
             .map((e) => e.difficulty_level)
-            .filter((d): d is number => d !== null && d !== undefined);
+            .filter((d): d is 1 | 2 | 3 | 4 | 5 => d != null);
 
         return difficulties.length === 0 ? null : Math.max(...difficulties);
     }

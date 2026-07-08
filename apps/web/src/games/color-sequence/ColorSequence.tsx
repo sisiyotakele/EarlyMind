@@ -154,6 +154,7 @@ export default function ColorSequence({ logger, onComplete }: GameProps) {
     );
 }
 
-function flattenFeatures(f: Record<string, number | null>): Record<string, number> {
-    return Object.fromEntries(Object.entries(f).filter(([, v]) => v !== null)) as Record<string, number>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function flattenFeatures(f: Record<string, any>): Record<string, number> {
+    return Object.fromEntries(Object.entries(f).filter(([, v]) => typeof v === 'number')) as Record<string, number>;
 }

@@ -146,7 +146,7 @@ export function GameOrchestrator({
         if (!ctrl) return;
 
         // Log game complete
-        loggerRef.current?.log('game_complete', { metadata: result });
+        loggerRef.current?.log('game_complete', { metadata: result as unknown as Record<string, unknown> });
         void loggerRef.current?.stop();
 
         ctrl.completeCurrentGame(result);
@@ -295,9 +295,8 @@ export function GameOrchestrator({
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-interface TranslationFn {
-    (key: string, opts?: Record<string, unknown>): string;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TranslationFn = any;
 
 function GameProgressBar({
     currentIndex,
@@ -306,7 +305,7 @@ function GameProgressBar({
 }: {
     currentIndex: number;
     total: number;
-    t: TranslationFn;
+    t: ReturnType<typeof useTranslation>['t'];
 }) {
     const displayNumber = currentIndex + 1;
     const pct = (currentIndex / total) * 100;

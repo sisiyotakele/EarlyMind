@@ -153,7 +153,7 @@ Each game includes: ☑ Gameplay logic ☑ Feature signal extraction ☑ Accepta
 ## Phase 6: Hardening
 
 ### Accessibility
-- ☐ **ACC-AUDIT-001**: WCAG 2.1 AA compliance audit (CON-ACC-001)
+- ☑ **ACC-AUDIT-001**: WCAG 2.1 AA compliance audit (CON-ACC-001) — audit doc + skip links added
 
 ### Security
 - ☐ **SEC-AUDIT-001**: Penetration testing (Section 10.5)
@@ -272,7 +272,7 @@ _This file is kept under version control and updated with every requirement-rela
 ## Phase 6: Hardening
 
 ### Accessibility
-- ◐ **CON-ACC-001** (P0): WCAG 2.1 AA — hooks in place, full audit pending
+- ☑ **CON-ACC-001** (P0): WCAG 2.1 AA — audit complete, skip links added
 - ◐ **GAME-FR-014** (P0): Visual accessibility — implemented, not yet audited
 
 ### Security

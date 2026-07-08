@@ -171,6 +171,7 @@ export default function TargetChase({ logger, onComplete }: GameProps) {
 function flatStats(s: Record<string, unknown>): Record<string, number> {
     return Object.fromEntries(Object.entries(s).filter(([, v]) => typeof v === 'number')) as Record<string, number>;
 }
-function flattenFeatures(f: Record<string, number | null>): Record<string, number> {
-    return Object.fromEntries(Object.entries(f).filter(([, v]) => v !== null)) as Record<string, number>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function flattenFeatures(f: Record<string, any>): Record<string, number> {
+    return Object.fromEntries(Object.entries(f).filter(([, v]) => typeof v === 'number')) as Record<string, number>;
 }

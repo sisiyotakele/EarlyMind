@@ -62,13 +62,15 @@ export default function GameSessionPage() {
         try {
             // GAME-FR-010: extract features client-side (CON-PRIV-001: never upload raw events)
             const normDb = await loadNormativeData();
-            const normalizer = new AgeNormalizer((normDb as Parameters<typeof AgeNormalizer>[0]) ?? []);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const normalizer = new AgeNormalizer((normDb as any) ?? []);
 
             // FeatureExtractor needs per-game events — loaded from IndexedDB
             const { loadEvents } = await import('../../offline/indexedDb');
             const { GAME_SEQUENCE } = await import('@earlymind/shared-types');
 
-            const perGameEvents: Parameters<typeof FeatureExtractor>[0] = {};
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const perGameEvents: Record<string, any> = {};
             for (const gameId of GAME_SEQUENCE) {
                 const events = await loadEvents(completedSessionId, gameId);
                 if (events.length > 0) perGameEvents[gameId] = events;
@@ -78,16 +80,18 @@ export default function GameSessionPage() {
             const extracted = extractor.extract();
 
             // Flatten extracted feature tree into key→value dict
-            const flatFeatures = flattenExtracted(extracted);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const flatFeatures = flattenExtracted(extracted as any) as any;
 
             // GAME-FR-011: z-score normalize
-            const normalizedFeatures = normalizer.normalizeAll(flatFeatures, ageMonths);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const normalizedFeatures = normalizer.normalizeAll(flatFeatures, ageMonths) as any;
 
             // Enqueue upload (handles offline — GAME-FR-012)
             await enqueueFeatureUpload(completedSessionId, {
                 age_months: ageMonths,
-                features: flatFeatures,
-                normalized_features: normalizedFeatures,
+                features: flatFeatures as Record<string, number>,
+                normalized_features: normalizedFeatures as Record<string, number>,
                 extraction_timestamp: new Date().toISOString(),
             });
 

@@ -9,7 +9,7 @@
  *   EAII Admin     → /eaii-admin/*
  */
 
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAuth } from './hooks/useAuth';
@@ -91,9 +91,55 @@ function OfflineIndicator() {
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 
+// ─── Skip Links for WCAG 2.4.1 ─────────────────────────────────────────────
+// https://www.w3.org/TR/WCAG21/#bypass-blocks
+const SkipLinks = () => {
+    const [stylesInjected, setStylesInjected] = useState(false);
+
+    useEffect(() => {
+        if (stylesInjected) return;
+        const style = document.createElement('style');
+        style.textContent = `
+            .skip-link {
+                position: absolute;
+                left: -9999px;
+                top: 0;
+                z-index: 9999;
+                padding: 12px 24px;
+                background: #fff;
+                color: #1a1a1a;
+                font-weight: 600;
+                text-decoration: none;
+                border-radius: 0 0 8px 0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            }
+            .skip-link:focus {
+                left: 0;
+            }
+            .skip-link--nav {
+                top: 48px;
+            }
+        `;
+        document.head.appendChild(style);
+        setStylesInjected(true);
+    }, [stylesInjected]);
+
+    return (
+        <>
+            <a href="#main-content" className="skip-link">
+                Skip to main content
+            </a>
+            <a href="#main-nav" className="skip-link skip-link--nav">
+                Skip to navigation
+            </a>
+        </>
+    );
+};
+
 export default function App() {
     return (
         <BrowserRouter>
+            <SkipLinks />
             <OfflineIndicator />
             <Suspense fallback={<LoadingFallback />}>
                 <Routes>
