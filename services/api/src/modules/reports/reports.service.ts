@@ -235,34 +235,34 @@ function generateFromTemplate(
         ? `${modRisk.map((p) => CONDITION_LABELS[p.condition].om).join(', ')} irratti hordoffiin cimaa gargaaruu danda'a.`
         : '',
       lowRiskNote: highRisk.length === 0 && modRisk.length === 0
-        ? 'Qorannoon daa'imni kee/ keetii hirmaannaa gaarii agarsiisuu agarsiisa.Deeggarsa itti fufi.'
-      : '',
-    referral: referralSuggested ? IERC_CONTACT.om : '',
-  },
+        ? 'Qorannoon daa\'imni kee/ keetii hirmaannaa gaarii agarsiisuu agarsiisa.Deeggarsa itti fufi.'
+        : '',
+      referral: referralSuggested ? IERC_CONTACT.om : '',
+    },
     ti: {
       intro: `እዚ ጸብጻብ ንቆልዓካ/ኪ ${ageYears} ዓመት ናይ 20 ደቓይቕ ምርመራ ሳዕቤን እዩ።`,
       highRiskNote: highRisk.length > 0
         ? `ምርመራ ${highRisk.map((p) => CONDITION_LABELS[p.condition].ti).join(', ')} ዘርፊ ተወሳኺ ሓገዝ ከድልዮ ይኽእል ምዃኑ የርኢ።`
         : '',
-        modRiskNote: modRisk.length > 0
-          ? `${modRisk.map((p) => CONDITION_LABELS[p.condition].ti).join(', ')} ዘርፊ ምክትታል ክሕግዝ ይኽእል።`
-          : '',
-          lowRiskNote: highRisk.length === 0 && modRisk.length === 0
-            ? 'ምርመራ ቆልዓካ/ኪ ጽቡቕ ተሳትፎ ምርኣዩ የርኢ። ሓገዝ ቀጽሉ።'
-            : '',
-            referral: referralSuggested ? IERC_CONTACT.ti : '',
+      modRiskNote: modRisk.length > 0
+        ? `${modRisk.map((p) => CONDITION_LABELS[p.condition].ti).join(', ')} ዘርፊ ምክትታል ክሕግዝ ይኽእል።`
+        : '',
+      lowRiskNote: highRisk.length === 0 && modRisk.length === 0
+        ? 'ምርመራ ቆልዓካ/ኪ ጽቡቕ ተሳትፎ ምርኣዩ የርኢ። ሓገዝ ቀጽሉ።'
+        : '',
+      referral: referralSuggested ? IERC_CONTACT.ti : '',
     },
   };
 
-const t = templates[language];
-const parts = [t.intro, t.highRiskNote, t.modRiskNote, t.lowRiskNote, t.referral]
-  .filter(Boolean);
-const reportText = parts.join('\n\n');
+  const t = templates[language];
+  const parts = [t.intro, t.highRiskNote, t.modRiskNote, t.lowRiskNote, t.referral]
+    .filter(Boolean);
+  const reportText = parts.join('\n\n');
 
-// Generic classroom recommendations
-const recommendations = buildRecommendations(predictions, language);
+  // Generic classroom recommendations
+  const recommendations = buildRecommendations(predictions, language);
 
-return { reportText, recommendations };
+  return { reportText, recommendations };
 }
 
 function buildRecommendations(
@@ -275,7 +275,7 @@ function buildRecommendations(
   const accommodations: Partial<Record<LearningCondition, Record<Language, string>>> = {
     dyslexia: {
       am: 'ለልጅዎ ዓይነ-ዕውር ሳይሆን ድምፅ ያለው ንባብ ቁሳቁሶችን ይጠቀሙ',
-      om: 'Daa\'imaniif meeshaalee sagalee qabu bitaa',
+      om: "Daa'imaniif meeshaalee sagalee qabu bitaa",
       ti: 'ንቆልዓካ/ኪ ናይ ድምጺ ሃብቲ ምንባብ ተጠቐሙ',
     },
     dyscalculia: {
@@ -295,12 +295,12 @@ function buildRecommendations(
     },
     working_memory_deficit: {
       am: 'ለልጅዎ ዝርዝር ዕቅዶችን ይሰጡ',
-      om: 'Daa\'imaniif tarree hojii kaa\'aa kennii',
+      om: "Daa'imaniif tarree hojii kaa'aa kennii",
       ti: 'ንቆልዓካ/ኪ ዝርዝር ዝርዝር ሃቡ',
     },
     processing_speed_deficit: {
       am: 'ለልጅዎ ተጨማሪ ጊዜ ይስጡ',
-      om: 'Daa\'imaniif yeroo dabalataa kennii',
+      om: "Daa'imaniif yeroo dabalataa kennii",
       ti: 'ንቆልዓካ/ኪ ዝተወሰኸ ግዜ ሃቡ',
     },
   };

@@ -9,7 +9,6 @@ import { z } from 'zod';
 import { requireAuth, requireRole } from '../../middleware/auth.middleware';
 import { db } from '../../db/client';
 import { AppError } from '../../middleware/errorHandler.middleware';
-import { auditLog } from '../../utils/auditLog';
 
 export const childrenRoutes = Router();
 

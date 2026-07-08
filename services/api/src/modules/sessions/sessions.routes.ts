@@ -27,7 +27,9 @@ sessionRoutes.post('/:id/features', requireAuth, handleSubmitFeatures);
 sessionRoutes.get('/:id/report', requireAuth, async (req, res, next) => {
     try {
         const { getReport } = await import('../reports/reports.service');
-        const report = await getReport(req.params['id']!, req.user?.user_id ?? '');
+        const sessionId = (Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) || '';
+        const userId = req.user?.user_id ?? '';
+        const report = await getReport(sessionId, userId);
         res.status(200).json({ success: true, data: report });
     } catch (err) {
         next(err);

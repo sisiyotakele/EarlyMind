@@ -42,6 +42,8 @@ export async function handleUpdateSession(
 ): Promise<void> {
     try {
         const { id } = req.params;
+        const sessionId = (Array.isArray(id) ? id[0] : id) || '';
+        const userId = req.user?.user_id ?? '';
         const body = req.body as {
             action?: string;
             total_duration_ms?: number;
@@ -50,21 +52,21 @@ export async function handleUpdateSession(
 
         switch (body.action) {
             case 'pause':
-                await pauseSession(id, req.user?.user_id ?? '');
+                await pauseSession(sessionId, userId);
                 break;
             case 'resume':
-                await resumeSession(id, req.user?.user_id ?? '');
+                await resumeSession(sessionId, userId);
                 break;
             case 'complete':
                 await completeSession(
-                    id,
-                    req.user?.user_id ?? '',
+                    sessionId,
+                    userId,
                     body.total_duration_ms ?? 0,
                     body.completion_rate ?? 0,
                 );
                 break;
             case 'abandon':
-                await abandonSession(id, req.user?.user_id ?? '');
+                await abandonSession(sessionId, userId);
                 break;
             default:
                 res.status(400).json({
@@ -88,7 +90,9 @@ export async function handleSubmitFeatures(
 ): Promise<void> {
     try {
         const { id } = req.params;
-        const result = await submitFeatureVector(id, req.user?.user_id ?? '', req.body as Record<string, unknown>);
+        const sessionId = (Array.isArray(id) ? id[0] : id) || '';
+        const userId = req.user?.user_id ?? '';
+        const result = await submitFeatureVector(sessionId, userId, req.body);
         res.status(201).json({ success: true, data: result });
     } catch (err) {
         next(err);

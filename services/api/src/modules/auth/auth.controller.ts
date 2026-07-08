@@ -32,12 +32,18 @@ function sessionCookieOptions() {
 // POST /api/auth/register — AUTH-FR-001
 export async function handleRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        await initiateRegistration(req.body as Record<string, unknown>);
+        const body = req.body as { phone_number?: string; name?: string; language?: string; role?: string };
+        await initiateRegistration({
+            phone_number: body.phone_number ?? '',
+            name: body.name ?? '',
+            language: (body.language ?? 'am') as 'am' | 'om' | 'ti',
+            role: (body.role ?? 'parent') as 'parent' | 'teacher' | 'school_admin',
+        });
         res.status(200).json({
             success: true,
             data: {
                 message: 'OTP sent to your phone number. Enter the code to complete registration.',
-                phone_number: (req.body as Record<string, unknown>)['phone_number'],
+                phone_number: body.phone_number,
             },
         });
     } catch (err) {
