@@ -16,9 +16,12 @@ import helmet from 'helmet';
 import { env } from './config/env';
 import { errorHandler } from './middleware/errorHandler.middleware';
 import { requestLogger } from './middleware/requestLogger.middleware';
+import { requireAuth } from './middleware/auth.middleware';
 import { authRoutes, userRoutes } from './modules/auth/auth.routes';
 import { childrenRoutes } from './modules/children/children.routes';
+import { dashboardRoutes } from './modules/dashboard/dashboard.routes';
 import { sessionRoutes } from './modules/sessions/sessions.routes';
+import { handleGetSessionMeta } from './modules/sessions/sessions.meta';
 
 export function createApp(): express.Express {
     const app = express();
@@ -78,6 +81,12 @@ export function createApp(): express.Express {
     app.use('/api/users', userRoutes);
     app.use('/api/children', childrenRoutes);
     app.use('/api/sessions', sessionRoutes);
+    // Session meta (for GameSessionPage)
+    app.get('/api/sessions/:id/meta', requireAuth, handleGetSessionMeta);
+    // Dashboard + admin routes (DASH-SCHOOL, DASH-EAII, SRS §9.1)
+    app.use('/api/dashboard', dashboardRoutes);
+    app.use('/api/admin', dashboardRoutes);
+    app.use('/api/export', dashboardRoutes);
 
     // ─── 404 handler ─────────────────────────────────────────────────────────
     app.use((_req, res) => {

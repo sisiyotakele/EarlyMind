@@ -1,12 +1,16 @@
 ﻿version: "3.9"
 
-# Local development services
-# Usage: docker-compose -f infra/docker/docker-compose.dev.yml up -d
+# Local development stack
+# Usage: docker compose -f infra/docker/docker-compose.dev.yml up -d
 #
-# Provides: PostgreSQL on localhost:5432
-# Matches the production Aurora PostgreSQL 14.x setup (SRS §2.4.3)
+# Services:
+#   - postgres:14  → localhost:5432  (matches AWS Aurora PostgreSQL 14, SRS §2.4.3)
+#   - ml-service   → localhost:8000  (FastAPI + PyTorch, SRS §9.3)
+#
+# Environment: copy services/api/.env.example → services/api/.env.local and fill in values
 
 services:
+  # ── PostgreSQL (matches Aurora PostgreSQL 14.x — SRS §2.4.3) ──────────────
   postgres:
     image: postgres:14-alpine
     container_name: earlymind-postgres-dev
@@ -25,6 +29,34 @@ services:
       retries: 5
     restart: unless-stopped
 
+  # ── ML Service (FastAPI + PyTorch — SRS §9.3) ─────────────────────────────
+  ml-service:
+    build:
+      context: ../../services/ml-service
+      dockerfile: Dockerfile
+    container_name: earlymind-ml-dev
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=development
+      - DEBUG=true
+      - MODEL_VERSION=v0.1.0
+      - S3_BUCKET_MODELS=earlymind-models
+      - AWS_REGION=us-east-1
+    volumes:
+      - earlymind_model_cache:/tmp/earlymind_models
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
 volumes:
   earlymind_postgres_data:
+    driver: local
+  earlymind_model_cache:
     driver: local
