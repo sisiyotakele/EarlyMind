@@ -17,6 +17,7 @@ import { env } from './config/env';
 import { errorHandler } from './middleware/errorHandler.middleware';
 import { requestLogger } from './middleware/requestLogger.middleware';
 import { requireAuth } from './middleware/auth.middleware';
+import { generalRateLimiter } from './middleware/rateLimiter.middleware';
 import { authRoutes, userRoutes } from './modules/auth/auth.routes';
 import { childrenRoutes } from './modules/children/children.routes';
 import { dashboardRoutes } from './modules/dashboard/dashboard.routes';
@@ -70,6 +71,10 @@ export function createApp(): express.Express {
 
     // ─── Request logging ──────────────────────────────────────────────────────
     app.use(requestLogger);
+
+    // ─── Rate limiting (SRS §2.4.4, AUTH-NFR-002, SEC-NFR-004) ────────────────
+    // General rate limit: 100 req/min per IP; stricter limits per endpoint
+    app.use(generalRateLimiter);
 
     // ─── Health check (monitoring, Section 11.3) ─────────────────────────────
     app.get('/health', (_req, res) => {

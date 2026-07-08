@@ -235,34 +235,34 @@ function generateFromTemplate(
         ? `${modRisk.map((p) => CONDITION_LABELS[p.condition].om).join(', ')} irratti hordoffiin cimaa gargaaruu danda'a.`
         : '',
       lowRiskNote: highRisk.length === 0 && modRisk.length === 0
-        ? 'Qorannoon daa'imni kee/keetii hirmaannaa gaarii agarsiisuu agarsiisa. Deeggarsa itti fufi.'
-        : '',
-      referral: referralSuggested ? IERC_CONTACT.om : '',
-    },
+        ? 'Qorannoon daa'imni kee/ keetii hirmaannaa gaarii agarsiisuu agarsiisa.Deeggarsa itti fufi.'
+      : '',
+    referral: referralSuggested ? IERC_CONTACT.om : '',
+  },
     ti: {
       intro: `እዚ ጸብጻብ ንቆልዓካ/ኪ ${ageYears} ዓመት ናይ 20 ደቓይቕ ምርመራ ሳዕቤን እዩ።`,
       highRiskNote: highRisk.length > 0
         ? `ምርመራ ${highRisk.map((p) => CONDITION_LABELS[p.condition].ti).join(', ')} ዘርፊ ተወሳኺ ሓገዝ ከድልዮ ይኽእል ምዃኑ የርኢ።`
         : '',
-      modRiskNote: modRisk.length > 0
-        ? `${modRisk.map((p) => CONDITION_LABELS[p.condition].ti).join(', ')} ዘርፊ ምክትታል ክሕግዝ ይኽእል።`
-        : '',
-      lowRiskNote: highRisk.length === 0 && modRisk.length === 0
-        ? 'ምርመራ ቆልዓካ/ኪ ጽቡቕ ተሳትፎ ምርኣዩ የርኢ። ሓገዝ ቀጽሉ።'
-        : '',
-      referral: referralSuggested ? IERC_CONTACT.ti : '',
+        modRiskNote: modRisk.length > 0
+          ? `${modRisk.map((p) => CONDITION_LABELS[p.condition].ti).join(', ')} ዘርፊ ምክትታል ክሕግዝ ይኽእል።`
+          : '',
+          lowRiskNote: highRisk.length === 0 && modRisk.length === 0
+            ? 'ምርመራ ቆልዓካ/ኪ ጽቡቕ ተሳትፎ ምርኣዩ የርኢ። ሓገዝ ቀጽሉ።'
+            : '',
+            referral: referralSuggested ? IERC_CONTACT.ti : '',
     },
   };
 
-  const t = templates[language];
-  const parts = [t.intro, t.highRiskNote, t.modRiskNote, t.lowRiskNote, t.referral]
-    .filter(Boolean);
-  const reportText = parts.join('\n\n');
+const t = templates[language];
+const parts = [t.intro, t.highRiskNote, t.modRiskNote, t.lowRiskNote, t.referral]
+  .filter(Boolean);
+const reportText = parts.join('\n\n');
 
-  // Generic classroom recommendations
-  const recommendations = buildRecommendations(predictions, language);
+// Generic classroom recommendations
+const recommendations = buildRecommendations(predictions, language);
 
-  return { reportText, recommendations };
+return { reportText, recommendations };
 }
 
 function buildRecommendations(
@@ -311,9 +311,15 @@ function buildRecommendations(
     if (acc) recs.push(acc[language]);
   }
 
-  return recs.length > 0 ? recs : [
-    { am: 'ልጅዎን ይከታተሉ እና ይደግፉ።', om: 'Daa\'ima kee/keetii hordofii deeggarsa kennii.', ti: 'ቆልዓካ/ኪ ክትታሉ ሓዙ።' }[language],
-  ];
+  if (recs.length > 0) return recs;
+
+  // Default recommendation if no high/mod conditions
+  const defaultRecommendations: Record<Language, string> = {
+    am: 'ልጅዎን ይከታተሉ እና ይደግፉ።',
+    om: 'Daa\'ima kee/keetii hordofii deeggarsa kennii.',
+    ti: 'ቆልዓካ/ኪ ክትታሉ ሓዙ።',
+  };
+  return [defaultRecommendations[language]];
 }
 
 function getRiskLevel(score: number) {
