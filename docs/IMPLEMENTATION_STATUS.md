@@ -300,11 +300,13 @@ _This file is kept under version control and updated with every requirement-rela
 - **Phase 3 (7 Games):** ☑ Complete
 - **Phase 4 (ML Service):** ☑ Complete
 - **Phase 5 (Reports/Dashboards/FL):** ☑ Complete
-- **Phase 6 (Hardening):** ◐ In progress (accessibility hooks, security basics)
+- **Phase 6 (Hardening):** ◐ In progress (accessibility audit complete, build optimization pending)
 
 **Total requirements:** ~150+
-**Completed:** ~65
-**In progress:** ~10
-**Not started:** ~75 (primarily Phase 6 hardening + deployment)
+**Completed:** ~66 (including CON-ACC-001, ACC-AUDIT-001)
+**In progress:** ~10 (TypeScript compilation, build optimization)
+**Not started:** ~74 (deployment, load testing, penetration testing)
+
+**Current Focus:** Phase 6 hardening - WCAG 2.1 AA accessibility audit completed and documented in docs/WCAG_AUDIT.md. Skip links added to all pages for keyboard navigation compliance. Next: resolve build dependencies and continue with security/performance testing.
 
 _All code committed and pushed to GitHub main branch._
