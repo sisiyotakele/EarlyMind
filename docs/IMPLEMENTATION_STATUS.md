@@ -1,6 +1,6 @@
 # EarlyMind Implementation Status
 
-**Last Updated:** 2026-07-03  
+**Last Updated:** 2026-07-08  
 **Purpose:** Live tracker for all SRS requirements. Update this file with every commit that completes/progresses a requirement.
 
 **Legend:**  
@@ -122,31 +122,31 @@ Each game includes: ☑ Gameplay logic ☑ Feature signal extraction ☑ Accepta
 ## Phase 5: Reports, Dashboards, Federated Learning
 
 ### Report Generation
-- ☐ **REPORT-FR-001**: Gemini integration for plain-language Amharic reports
-- ☐ **REPORT-FR-002**: Templated fallback when Gemini unavailable
-- ☐ **REPORT-FR-003**: PDF generation with jsPDF
-- ☐ **REPORT-FR-004**: "This is a screening, not a diagnosis" disclaimer (CON-REG-004)
+- ☑ **REPORT-FR-001**: Gemini integration for plain-language Amharic reports
+- ☑ **REPORT-FR-002**: Templated fallback when Gemini unavailable
+- ☑ **REPORT-FR-003**: PDF generation with jsPDF
+- ☑ **REPORT-FR-004**: "This is a screening, not a diagnosis" disclaimer (CON-REG-004)
 
 ### Teacher Dashboard
-- ☐ **DASH-TEACHER-001**: Class Roster Page
-- ☐ **DASH-TEACHER-002**: Bulk Screening Page
-- ☐ **DASH-TEACHER-003**: Accommodation Guide Page
+- ☑ **DASH-TEACHER-001**: Class Roster Page
+- ☑ **DASH-TEACHER-002**: Bulk Screening Page
+- ☑ **DASH-TEACHER-003**: Accommodation Guide Page
 
 ### School Admin Dashboard
-- ☐ **DASH-SCHOOL-001**: Aggregate Analytics Page
-- ☐ **DASH-SCHOOL-002**: Teacher Management Page
-- ☐ **DASH-SCHOOL-003**: Export Page (CSV/Excel, anonymized)
+- ☑ **DASH-SCHOOL-001**: Aggregate Analytics Page
+- ☑ **DASH-SCHOOL-002**: Teacher Management Page
+- ☑ **DASH-SCHOOL-003**: Export Page (CSV/Excel, anonymized)
 
 ### EAII Admin Console
-- ☐ **DASH-EAII-001**: System Health Page
-- ☐ **DASH-EAII-002**: Model Management Page
-- ☐ **DASH-EAII-003**: Research Export Page
-- ☐ **DASH-EAII-004**: Audit Log Page
+- ☑ **DASH-EAII-001**: System Health Page
+- ☑ **DASH-EAII-002**: Model Management Page
+- ☑ **DASH-EAII-003**: Research Export Page
+- ☑ **DASH-EAII-004**: Audit Log Page
 
 ### Federated Learning
-- ☐ **FED-FR-001**: Flower client integration (on-device training)
-- ☐ **FED-FR-002**: Flower server aggregation (Section 9.4)
-- ☐ **FED-FR-003**: Differential privacy (CON-PRIV-006)
+- ☑ **FED-FR-001**: Flower client integration (on-device training)
+- ☑ **FED-FR-002**: Flower server aggregation (Section 9.4)
+- ☑ **FED-FR-003**: Differential privacy (CON-PRIV-006)
 
 ---
 
@@ -233,3 +233,78 @@ Each game includes: ☑ Gameplay logic ☑ Feature signal extraction ☑ Accepta
 - **Not started:** ~80+ (Phase 5 Reports/Dashboards/FL, Phase 6 Hardening)
 
 _This file is kept under version control and updated with every requirement-related commit._
+## Phase 5: Reports, Dashboards, Federated Learning (Section 5-6, 9.4)
+
+### Report Generation
+- ☑ **REPORT-FR-001**: Gemini integration for plain-language Amharic reports
+- ☑ **REPORT-FR-002**: Templated fallback when Gemini unavailable
+- ☑ **REPORT-FR-003**: PDF generation with jsPDF + S3 signed URLs
+- ☑ **REPORT-FR-004**: "This is a screening, not a diagnosis" disclaimer (CON-REG-004) — all code paths
+
+### Teacher Dashboard
+- ☑ **DASH-TEACHER-001**: ClassRosterPage — view children, screening status
+- ☑ **DASH-TEACHER-002**: BulkScreeningPage — launch assessments
+- ☑ **DASH-TEACHER-003**: AccommodationGuidePage — per-child recommendations
+
+### School Admin Dashboard
+- ☑ **DASH-SCHOOL-001**: AggregateAnalyticsPage — school-wide metrics
+- ☑ **DASH-SCHOOL-002**: TeacherManagementPage — invite/manage teachers
+- ☑ **DASH-SCHOOL-003**: ExportPage — CSV/Excel, anonymized (CON-PRIV-004)
+
+### EAII Admin Console
+- ☑ **DASH-EAII-001**: SystemHealthPage — API/db/ML service status
+- ☑ **DASH-EAII-002**: ModelManagementPage — upload/approve models
+- ☑ **DASH-EAII-003**: ResearchExportPage — IRB-approved exports
+- ☑ **DASH-EAII-004**: AuditLogPage — full audit trail
+
+### Privacy Controls (CON-PRIV-*)
+- ☑ **CON-PRIV-004**: Teachers see only summaries, no raw scores
+- ☑ **CON-PRIV-005**: Admins need consent + audit trail for identifiable data
+- ☑ **CON-PRIV-001**: Raw data never leaves client unless research opt-in
+
+### Federated Learning
+- ☑ **FED-FR-001**: Flower client (PyTorch) — on-device training support
+- ☑ **FED-FR-002**: Flower server aggregation — weighted avg per SRS 9.4
+- ☑ **FED-FR-003**: Differential privacy — Opacus + privacy budget tracking (ε=1.0)
+
+---
+
+## Phase 6: Hardening
+
+### Accessibility
+- ◐ **CON-ACC-001** (P0): WCAG 2.1 AA — hooks in place, full audit pending
+- ◐ **GAME-FR-014** (P0): Visual accessibility — implemented, not yet audited
+
+### Security
+- ◐ **SEC-NFR-004**: OWASP Top 10 mitigation
+- ◐ **SEC-NFR-005**: Dependency vulnerability scanning
+
+### Performance
+- ◐ **GAME-NFR-001** (P0): Input latency <100ms, >=30 FPS — not yet profiled
+- ◐ **PERF-NFR-002**: API latency <2s p95 — not yet load-tested
+- ◐ **PERF-NFR-003**: ML inference <5s — implemented, needs profiling
+
+### Deployment
+- ☐ **DEPLOY-001**: Terraform infrastructure (SRS §2.4.3.3)
+- ☐ **DEPLOY-002**: Staging environment
+- ☐ **DEPLOY-003**: Production environment
+- ☐ **DEPLOY-004**: Monitoring & logging (Section 11.3)
+- ☐ **DEPLOY-005**: Backup & recovery (Section 11.4)
+
+---
+
+**Progress Summary (2026-07-08):**
+- **Phase 0 (Foundation):** ☑ Complete
+- **Phase 1 (Auth):** ☑ Complete
+- **Phase 2 (Assessment Engine):** ☑ Complete
+- **Phase 3 (7 Games):** ☑ Complete
+- **Phase 4 (ML Service):** ☑ Complete
+- **Phase 5 (Reports/Dashboards/FL):** ☑ Complete
+- **Phase 6 (Hardening):** ◐ In progress (accessibility hooks, security basics)
+
+**Total requirements:** ~150+
+**Completed:** ~65
+**In progress:** ~10
+**Not started:** ~75 (primarily Phase 6 hardening + deployment)
+
+_All code committed and pushed to GitHub main branch._
