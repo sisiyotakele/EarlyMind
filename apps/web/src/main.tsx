@@ -7,6 +7,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// Styles (Tailwind + custom)
+import './styles.css';
+
 // i18n must be imported before App (LOC-NFR-001/002)
 import './i18n/i18n.config';
 
