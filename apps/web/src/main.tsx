@@ -12,6 +12,13 @@ import './i18n/i18n.config';
 
 import App from './App';
 import { registerOnlineSync } from './offline/syncQueue';
+import { enableMockApi } from './mockApi';
+
+// Enable mock API for local development (when backend not available)
+if (import.meta.env.DEV) {
+    enableMockApi();
+    console.log('🎭 Mock API enabled for development');
+}
 
 // Register background sync for offline feature uploads (GAME-FR-012)
 registerOnlineSync();
